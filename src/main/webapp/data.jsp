@@ -6,6 +6,8 @@
     <title>Title</title>
 </head>
 <body>
+<table>
     ${requestScope.data}
+</table>
 </body>
 </html>

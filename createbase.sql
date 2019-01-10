@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     24.12.2018 12:37:17                          */
+/* Created on:     09.01.2019 17:00:13                          */
 /*==============================================================*/
 
 
@@ -23,7 +23,7 @@ drop table if exists Warehouse;
 /*==============================================================*/
 create table Category
 (
-   CategoryId           bigint not null,
+   CategoryId           bigint not null auto_increment,
    CategoryName         varchar(256),
    primary key (CategoryId)
 );
@@ -33,9 +33,10 @@ create table Category
 /*==============================================================*/
 create table `Order`
 (
-   OrderId              bigint not null,
+   OrderId              bigint not null auto_increment,
    UserId               bigint not null,
    OrderStatus          int,
+   SummaryPrice         decimal(15,2),
    primary key (OrderId)
 );
 
@@ -44,11 +45,9 @@ create table `Order`
 /*==============================================================*/
 create table OrderItem
 (
-   OrderItemId          bigint not null,
    ProductId            bigint not null,
    OrderId              bigint not null,
-   OrderItemQuantity    decimal,
-   primary key (OrderItemId)
+   OrderItemQuantity    decimal
 );
 
 /*==============================================================*/
@@ -56,7 +55,7 @@ create table OrderItem
 /*==============================================================*/
 create table Product
 (
-   ProductId            bigint not null,
+   ProductId            bigint not null auto_increment,
    WarehouseItemId      bigint not null,
    CategoryId           bigint not null,
    ProductName          varchar(256),
@@ -71,7 +70,7 @@ create table Product
 /*==============================================================*/
 create table User
 (
-   UserId               bigint not null,
+   UserId               bigint not null auto_increment,
    UserRoleId           bigint not null,
    UserName             varchar(256),
    UserSurname          varchar(256),
@@ -85,7 +84,7 @@ create table User
 /*==============================================================*/
 create table UserRole
 (
-   UserRoleId           bigint not null,
+   UserRoleId           bigint not null auto_increment,
    UserRoleName         varchar(256),
    primary key (UserRoleId)
 );
@@ -95,7 +94,7 @@ create table UserRole
 /*==============================================================*/
 create table Warehouse
 (
-   WarehouseItemId      bigint not null,
+   WarehouseItemId      bigint not null auto_increment,
    WarehouseItemQuantity decimal,
    primary key (WarehouseItemId)
 );

@@ -4,12 +4,12 @@ import org.romanchi.Wired;
 import org.romanchi.database.dao.TestDao;
 import org.romanchi.database.dao.UserDao;
 
-public class TestService {
+public class NewUserService {
 
     @Wired
-    TestDao testDao;
+    UserDao userDao;
 
     public String getData(){
-        return "service: " + testDao.getData();
+        return "service: " + userDao.count();
     }
 }

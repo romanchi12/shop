@@ -11,8 +11,7 @@ public class User {
 
     public User() {
     }
-    public User(long userId, String userName, String userSurname, String userEmail, String userPassword, UserRole userUserRole) {
-        this.userId = userId;
+    public User(String userName, String userSurname, String userEmail, String userPassword, UserRole userUserRole) {
         this.userName = userName;
         this.userSurname = userSurname;
         this.userEmail = userEmail;

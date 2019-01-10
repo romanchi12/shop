@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.romanchi</groupId>
             <artifactId>core</artifactId>
-            <version>3.8-SNAPSHOT</version>
+            <version>4.1-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>

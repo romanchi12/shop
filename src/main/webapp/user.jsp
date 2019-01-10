@@ -6,6 +6,26 @@
     <title>User</title>
 </head>
 <body>
-    ${requestScope.user}
+    User: ${requestScope.user}
+<br>
+<hr>
+    Users Amount: ${requestScope.usersAmount}
+
+
+    <br>
+<hr>
+    Exists by id: ${requestScope.existsById}
+<br>
+<hr>
+    new user id: ${requestScope.newuserid}
+    <br>
+    <hr>
+    <table>
+        <c:forEach items="${requestScope.users}" var="user">
+            <tr>
+                ${user}
+            </tr>
+        </c:forEach>
+    </table>
 </body>
 </html>
