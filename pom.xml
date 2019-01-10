@@ -41,8 +41,15 @@
         <dependency>
             <groupId>org.romanchi</groupId>
             <artifactId>core</artifactId>
-            <version>4.1-SNAPSHOT</version>
+            <version>4.2-SNAPSHOT</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
@@ -57,7 +64,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency> <groupId>org.reflections</groupId> <artifactId>reflections</artifactId> <version>0.9.9-RC1</version> </dependency>
+
         <!-- https://mvnrepository.com/artifact/jstl/jstl -->
         <dependency>
             <groupId>jstl</groupId>

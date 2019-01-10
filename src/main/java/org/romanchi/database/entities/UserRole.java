@@ -27,4 +27,12 @@ public class UserRole {
     public void setUserRoleName(String userRoleName) {
         this.userRoleName = userRoleName;
     }
+
+    @Override
+    public String toString() {
+        return "UserRole{" +
+                "userRoleId=" + userRoleId +
+                ", userRoleName='" + userRoleName + '\'' +
+                '}';
+    }
 }

@@ -19,8 +19,6 @@ public interface UserDao {
 
     Iterable<User> findAll();
 
-    long update(User userToUpdate);    // todo ????? is it needed?
-
     long count();
 
     void delete(User userToDelete);

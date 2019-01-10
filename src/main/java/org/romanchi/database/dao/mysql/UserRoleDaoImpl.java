@@ -1,88 +1,74 @@
 package org.romanchi.database.dao.mysql;
 
-import static org.romanchi.database.Column.*;
-import static org.romanchi.database.Table.*;
+import org.romanchi.Wired;
+import org.romanchi.database.Column;
+import org.romanchi.database.dao.UserRoleDao;
+import org.romanchi.database.entities.User;
+import org.romanchi.database.entities.UserRole;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.logging.Logger;
-import javax.sql.DataSource;
 
-import org.romanchi.Wired;
-import org.romanchi.database.Column;
-import org.romanchi.database.dao.UserDao;
-import org.romanchi.database.entities.User;
-import org.romanchi.database.entities.UserRole;
+import static org.romanchi.database.Column.*;
+import static org.romanchi.database.Column.USERROLE_USERROLENAME;
+import static org.romanchi.database.Column.USER_USERUSERROLE_ID;
+import static org.romanchi.database.Table.USERROLE_TABLE;
+import static org.romanchi.database.Table.USER_TABLE;
 
-
-/**
- * @author Роман
- */
-public class UserDaoImpl implements UserDao {
-    private final static Logger logger = Logger.getLogger(UserDaoImpl.class.getName());
+public class UserRoleDaoImpl implements UserRoleDao {
+    private final static Logger logger = Logger.getLogger(UserRoleDaoImpl.class.getName());
 
     private final String SQL_SELECT = "SELECT " +
-            USER_USER_ID + ", " +
-            USER_USERNAME + ", " +
-            USER_USERSURNAME + ", " +
-            USER_USEREMAIL + ", " +
-            USER_USERPASSWORD + ", " +
-            USER_USERUSERROLE_ID + ", " +
             USERROLE_USERROLE_ID + ", " +
-            USERROLE_USERROLENAME + " " +
-            " FROM " + USER_TABLE +
-            " LEFT JOIN " + USERROLE_TABLE + " on " +
-            USER_USERUSERROLE_ID + "=" + USERROLE_USERROLE_ID;
+            USERROLE_USERROLENAME +
+            " FROM " + USERROLE_TABLE;
 
-    private final String SQL_INSERT = "INSERT INTO " + USER_TABLE +
-            "(" + USER_USERNAME + ", " +
-            USER_USERSURNAME + ", " +
-            USER_USEREMAIL + ", " +
-            USER_USERPASSWORD + ", " +
-            USER_USERUSERROLE_ID + ") VALUES(?,?,?,?,?)";
+    private final String SQL_INSERT = "INSERT INTO " + USERROLE_TABLE +
+            "(" + USERROLE_USERROLENAME + ") VALUES(?)";
 
-    private final String SQL_UPDATE = "UPDATE " + getTableName() + " SET " +
-            USER_USERNAME + "=?, " +
-            USER_USERSURNAME + "=?, " +
-            USER_USEREMAIL + "=?, " +
-            USER_USERPASSWORD + "=?, " +
-            USER_USERUSERROLE_ID + "=? WHERE " + Column.USER_USER_ID + "=?";
+    private final String SQL_UPDATE = "UPDATE " + USERROLE_TABLE + " SET " +
+            USERROLE_USERROLENAME + "=? " +
+            "WHERE " + Column.USERROLE_USERROLE_ID + "=?";
 
-    private final String SQL_COUNT = "SELECT COUNT(*) FROM " + USER_TABLE;
+    private final String SQL_COUNT = "SELECT COUNT(*) FROM " + USERROLE_TABLE;
 
-    private final String SQL_DELETE = "DELETE FROM " + getTableName() + " WHERE " + Column.USER_USER_ID + "=?";
+    private final String SQL_DELETE = "DELETE FROM " + USERROLE_TABLE + " WHERE " + Column.USERROLE_USERROLE_ID + "=?";
 
     @Wired
     private DataSource dataSource; //a
 
-    public UserDaoImpl() {
+    public UserRoleDaoImpl() {
     }
 
     @Override
-    public Iterable<User> findAll() {
-        return findByDynamicSelect(SQL_SELECT + " ORDER BY " + USER_USER_ID, null);
+    public Iterable<UserRole> findAll() {
+        return findByDynamicSelect(SQL_SELECT + " ORDER BY " + USERROLE_USERROLE_ID, null);
     }
 
     @Override
-    public Optional<User> findById(long userId) {
-        logger.info(String.valueOf(userId));
-        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + USER_USER_ID + "=? ORDER BY " + USER_USER_ID, new Object[]{userId});
+    public Optional<UserRole> findById(long userRoleId) {
+        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + USERROLE_USERROLE_ID + "=? ORDER BY " + USERROLE_USERROLE_ID, new Object[]{userRoleId});
     }
 
     @Override
-    public Optional<User> findByEmailAndPassword(String userEmail, String userPassword) {
-        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + USER_USEREMAIL + "=? AND " + USER_USERPASSWORD + "=? ORDER BY " + USER_USER_ID, new Object[]{userEmail,userPassword});
+    public Optional<UserRole> findByUserRoleName(String userRoleName) {
+        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + USERROLE_USERROLENAME + "=? ORDER BY " +
+                USERROLE_USERROLE_ID, new Object[]{userRoleName});
+
     }
 
     //"INSERT INTO User(UserRoleId, TeamId, UserLogin, UserPassword, IsCaptain) VALUES(?,?,?,?,?)";
     @Override
-    public long save(User newUser) {
-        if(existsById(newUser.getUserId())){
-            return update(newUser);
+    public long save(UserRole newUserRole) {
+        if(existsById(newUserRole.getUserRoleId())){
+            return update(newUserRole);
         }
         Connection connection = null;
         long insertedId = -1;
@@ -91,18 +77,13 @@ public class UserDaoImpl implements UserDao {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, newUser.getUserName());
-            preparedStatement.setString(2, newUser.getUserSurname());
-            preparedStatement.setString(3, newUser.getUserEmail());
-            preparedStatement.setString(4, newUser.getUserPassword());
-            preparedStatement.setLong(5, newUser.getUserUserRole().getUserRoleId());
-
+            preparedStatement.setString(1, newUserRole.getUserRoleName());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
                 insertedId = resultSet.getLong(1);
             }
-            newUser.setUserId(insertedId);
+            newUserRole.setUserRoleId(insertedId);
             connection.commit();
             return insertedId;
         } catch (SQLException exception) {
@@ -128,19 +109,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     //"UPDATE User SET UserRoleId=?, TeamId=?, UserLogin=?, UserPassword=?, IsCaptain=? WHERE UserId = ?";
-    private long update(User newUser) {
+    private long update(UserRole newUserRole) {
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
-            preparedStatement.setString(1, newUser.getUserName());
-            preparedStatement.setString(2, newUser.getUserSurname());
-            preparedStatement.setString(3, newUser.getUserEmail());
-            preparedStatement.setString(4, newUser.getUserPassword());
-            preparedStatement.setLong(5, newUser.getUserUserRole().getUserRoleId());
-            preparedStatement.setLong(6,newUser.getUserId());
+            preparedStatement.setString(1, newUserRole.getUserRoleName());
+            preparedStatement.setLong(2,newUserRole.getUserRoleId());
             int affectedRows = preparedStatement.executeUpdate();
             connection.commit();
             return affectedRows;
@@ -191,11 +168,11 @@ public class UserDaoImpl implements UserDao {
 
     //"DELETE FROM User WHERE User.UserId=?";
     @Override
-    public void delete(User userToDelete)  {
+    public void delete(UserRole userRoleToDelete)  {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
-                statement.setLong(1, userToDelete.getUserId());
+                statement.setLong(1, userRoleToDelete.getUserRoleId());
                 int affectedRows = statement.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -209,8 +186,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-
-    public Optional<User> findSingleByDynamicSelect(String SQL, Object[] params) {
+    public Optional<UserRole> findSingleByDynamicSelect(String SQL, Object[] params) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try (Connection connection = dataSource.getConnection()) {
@@ -220,6 +196,7 @@ public class UserDaoImpl implements UserDao {
                     preparedStatement.setObject(i, params[i - 1]);
                 }
             }
+
             resultSet = preparedStatement.executeQuery();
             return fetchSingleResult(resultSet);
         } catch (SQLException exception) {
@@ -228,7 +205,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public Iterable<User> findByDynamicSelect(String sql, Object[] params) {
+    public Iterable<UserRole> findByDynamicSelect(String sql, Object[] params) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try (Connection connection = dataSource.getConnection()) {
@@ -248,11 +225,11 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    private Iterable<User> fetchMultiResults(ResultSet resultSet) {
-        Collection<User> users = new ArrayList<>();
+    private Iterable<UserRole> fetchMultiResults(ResultSet resultSet) {
+        Collection<UserRole> users = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                User dto = new User();
+                UserRole dto = new UserRole();
                 populateEntity(dto, resultSet);
                 users.add(dto);
             }
@@ -263,11 +240,11 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
-    private Optional<User> fetchSingleResult(ResultSet resultSet) {
+    private Optional<UserRole> fetchSingleResult(ResultSet resultSet) {
 
         try {
             if (resultSet.next()) {
-                User entity = new User();
+                UserRole entity = new UserRole();
                 populateEntity(entity, resultSet);
                 return Optional.ofNullable(entity);
             }
@@ -278,17 +255,10 @@ public class UserDaoImpl implements UserDao {
         return Optional.empty();
     }
 
-    private void populateEntity(User entity, ResultSet resultSet) {
+    private void populateEntity(UserRole entity, ResultSet resultSet) {
         try {
-            entity.setUserId(resultSet.getLong(USER_USER_ID));
-            entity.setUserName(resultSet.getString(USER_USERNAME));
-            entity.setUserSurname(resultSet.getString(USER_USERSURNAME));
-            entity.setUserEmail(resultSet.getString(USER_USEREMAIL));
-            entity.setUserPassword(resultSet.getString(USER_USERPASSWORD));
-            UserRole userRole = new UserRole();
-            userRole.setUserRoleId(resultSet.getLong(USER_USERUSERROLE_ID));
-            userRole.setUserRoleName(resultSet.getString(USERROLE_USERROLENAME));
-            entity.setUserUserRole(userRole);
+            entity.setUserRoleId(resultSet.getLong(USERROLE_USERROLE_ID));
+            entity.setUserRoleName(resultSet.getString(USERROLE_USERROLENAME));
         } catch (SQLException e) {
             e.printStackTrace();
             entity = null;
@@ -296,16 +266,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean existsById(long userId) {
-        Optional<User> user = findById(userId);
-        return user.isPresent();
+    public boolean existsById(long userRoleId) {
+        Optional<UserRole> userRole = findById(userRoleId);
+        return userRole.isPresent();
     }
-
-
 
     public String getTableName() {
-        return "User";
+        return USERROLE_TABLE;
     }
-
 
 }
