@@ -2,8 +2,8 @@ package org.romanchi.database.dao.mysql;
 
 import org.romanchi.Wired;
 import org.romanchi.database.Column;
-import org.romanchi.database.dao.CategoryDao;
-import org.romanchi.database.entities.Category;
+import org.romanchi.database.dao.WarehouseItemDao;
+import org.romanchi.database.entities.WarehouseItem;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -15,57 +15,50 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static org.romanchi.database.Column.*;
-import static org.romanchi.database.Table.CATEGORY_TABLE;
-import static org.romanchi.database.Table.CATEGORY_TABLE;
+import static org.romanchi.database.Column.WAREHOUSE_WAREHOUSE_ITEM_QUANTITY;
+import static org.romanchi.database.Column.WAREHOUSE_WAREHOUSEITEM_ID;
+import static org.romanchi.database.Table.WAREHOUSE_TABLE;
 
-public class CategoryDaoImpl implements CategoryDao {
-    private final static Logger logger = Logger.getLogger(CategoryDaoImpl.class.getName());
+public class WarehouseItemDaoImpl implements WarehouseItemDao {
+    private final static Logger logger = Logger.getLogger(WarehouseItemDaoImpl.class.getName());
 
     private final String SQL_SELECT = "SELECT " +
-            CATEGORY_CATEGORY_ID + ", " +
-            CATEGORY_CATEGORYNAME +
-            " FROM " + CATEGORY_TABLE;
+            WAREHOUSE_WAREHOUSEITEM_ID + ", " +
+            WAREHOUSE_WAREHOUSE_ITEM_QUANTITY +
+            " FROM " + WAREHOUSE_TABLE;
 
-    private final String SQL_INSERT = "INSERT INTO " + CATEGORY_TABLE +
-            "(" + CATEGORY_CATEGORYNAME + ") VALUES(?)";
+    private final String SQL_INSERT = "INSERT INTO " + WAREHOUSE_TABLE +
+            "(" + WAREHOUSE_WAREHOUSE_ITEM_QUANTITY + ") VALUES(?)";
 
-    private final String SQL_UPDATE = "UPDATE " + CATEGORY_TABLE + " SET " +
-            CATEGORY_CATEGORYNAME + "=? " +
-            "WHERE " + Column.CATEGORY_CATEGORY_ID + "=?";
+    private final String SQL_UPDATE = "UPDATE " + WAREHOUSE_TABLE + " SET " +
+            WAREHOUSE_WAREHOUSE_ITEM_QUANTITY + "=? " +
+            "WHERE " + Column.WAREHOUSE_WAREHOUSEITEM_ID + "=?";
 
-    private final String SQL_COUNT = "SELECT COUNT(*) FROM " + CATEGORY_TABLE;
+    private final String SQL_COUNT = "SELECT COUNT(*) FROM " + WAREHOUSE_TABLE;
 
-    private final String SQL_DELETE = "DELETE FROM " + CATEGORY_TABLE + " WHERE " + Column.CATEGORY_CATEGORY_ID + "=?";
+    private final String SQL_DELETE = "DELETE FROM " + WAREHOUSE_TABLE + " WHERE " + Column.WAREHOUSE_WAREHOUSEITEM_ID + "=?";
 
     @Wired
     private DataSource dataSource; //a
 
-    public CategoryDaoImpl() {
+    public WarehouseItemDaoImpl() {
     }
 
     @Override
-    public Iterable<Category> findAll() {
-        return findByDynamicSelect(SQL_SELECT + " ORDER BY " + CATEGORY_CATEGORY_ID, null);
+    public Iterable<WarehouseItem> findAll() {
+        return findByDynamicSelect(SQL_SELECT + " ORDER BY " + WAREHOUSE_WAREHOUSEITEM_ID, null);
     }
 
     @Override
-    public Optional<Category> findById(long сategoryId) {
-        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + CATEGORY_CATEGORY_ID + "=? ORDER BY " + CATEGORY_CATEGORY_ID, new Object[]{сategoryId});
+    public Optional<WarehouseItem> findById(long сategoryId) {
+        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + WAREHOUSE_WAREHOUSEITEM_ID + "=? ORDER BY " + WAREHOUSE_WAREHOUSEITEM_ID, new Object[]{сategoryId});
     }
 
+    //"INSERT INTO User(WarehouseId, TeamId, UserLogin, UserPassword, IsCaptain) VALUES(?,?,?,?,?)";
     @Override
-    public Optional<Category> findByCategoryName(String сategoryName) {
-        return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + CATEGORY_CATEGORYNAME + "=? ORDER BY " +
-                CATEGORY_CATEGORY_ID, new Object[]{сategoryName});
-
-    }
-
-    //"INSERT INTO User(CategoryId, TeamId, UserLogin, UserPassword, IsCaptain) VALUES(?,?,?,?,?)";
-    @Override
-    public long save(Category newCategory) {
-        if(existsById(newCategory.getCategoryId())){
-            return update(newCategory);
+    public long save(WarehouseItem newWarehouseItem) {
+        if(existsById(newWarehouseItem.getWarehouseItemId())){
+            return update(newWarehouseItem);
         }
         Connection connection = null;
         long insertedId = -1;
@@ -74,13 +67,13 @@ public class CategoryDaoImpl implements CategoryDao {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, newCategory.getCategoryName());
+            preparedStatement.setDouble(1, newWarehouseItem.getWarehouseItemQuantity());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
                 insertedId = resultSet.getLong(1);
             }
-            newCategory.setCategoryId(insertedId);
+            newWarehouseItem.setWarehouseItemId(insertedId);
             connection.commit();
             return insertedId;
         } catch (SQLException exception) {
@@ -105,16 +98,16 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
-    //"UPDATE User SET CategoryId=?, TeamId=?, UserLogin=?, UserPassword=?, IsCaptain=? WHERE UserId = ?";
-    private long update(Category newCategory) {
+    //"UPDATE User SET WarehouseId=?, TeamId=?, UserLogin=?, UserPassword=?, IsCaptain=? WHERE UserId = ?";
+    private long update(WarehouseItem newWarehouseItem) {
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(SQL_UPDATE);
-            preparedStatement.setString(1, newCategory.getCategoryName());
-            preparedStatement.setLong(2,newCategory.getCategoryId());
+            preparedStatement.setDouble(1, newWarehouseItem.getWarehouseItemQuantity());
+            preparedStatement.setLong(2, newWarehouseItem.getWarehouseItemId());
             int affectedRows = preparedStatement.executeUpdate();
             connection.commit();
             return affectedRows;
@@ -165,11 +158,11 @@ public class CategoryDaoImpl implements CategoryDao {
 
     //"DELETE FROM User WHERE User.UserId=?";
     @Override
-    public void delete(Category categoryToDelete)  {
+    public void delete(WarehouseItem warehouseItemToDelete)  {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
-                statement.setLong(1, categoryToDelete.getCategoryId());
+                statement.setLong(1, warehouseItemToDelete.getWarehouseItemId());
                 int affectedRows = statement.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -183,7 +176,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
-    public Optional<Category> findSingleByDynamicSelect(String SQL, Object[] params) {
+    public Optional<WarehouseItem> findSingleByDynamicSelect(String SQL, Object[] params) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try (Connection connection = dataSource.getConnection()) {
@@ -202,7 +195,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
-    public Iterable<Category> findByDynamicSelect(String sql, Object[] params) {
+    public Iterable<WarehouseItem> findByDynamicSelect(String sql, Object[] params) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try (Connection connection = dataSource.getConnection()) {
@@ -222,11 +215,11 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
-    private Iterable<Category> fetchMultiResults(ResultSet resultSet) {
-        Collection<Category> users = new ArrayList<>();
+    private Iterable<WarehouseItem> fetchMultiResults(ResultSet resultSet) {
+        Collection<WarehouseItem> users = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                Category dto = new Category();
+                WarehouseItem dto = new WarehouseItem();
                 populateEntity(dto, resultSet);
                 users.add(dto);
             }
@@ -237,11 +230,11 @@ public class CategoryDaoImpl implements CategoryDao {
         return users;
     }
 
-    private Optional<Category> fetchSingleResult(ResultSet resultSet) {
+    private Optional<WarehouseItem> fetchSingleResult(ResultSet resultSet) {
 
         try {
             if (resultSet.next()) {
-                Category entity = new Category();
+                WarehouseItem entity = new WarehouseItem();
                 populateEntity(entity, resultSet);
                 return Optional.ofNullable(entity);
             }
@@ -252,10 +245,10 @@ public class CategoryDaoImpl implements CategoryDao {
         return Optional.empty();
     }
 
-    private void populateEntity(Category entity, ResultSet resultSet) {
+    private void populateEntity(WarehouseItem entity, ResultSet resultSet) {
         try {
-            entity.setCategoryId(resultSet.getLong(CATEGORY_CATEGORY_ID));
-            entity.setCategoryName(resultSet.getString(CATEGORY_CATEGORYNAME));
+            entity.setWarehouseItemId(resultSet.getLong(WAREHOUSE_WAREHOUSEITEM_ID));
+            entity.setWarehouseItemQuantity(resultSet.getDouble(WAREHOUSE_WAREHOUSE_ITEM_QUANTITY));
         } catch (SQLException e) {
             e.printStackTrace();
             entity = null;
@@ -263,13 +256,12 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
-    public boolean existsById(long CategoryId) {
-        Optional<Category> Category = findById(CategoryId);
-        return Category.isPresent();
+    public boolean existsById(long WarehouseId) {
+        Optional<WarehouseItem> Warehouse = findById(WarehouseId);
+        return Warehouse.isPresent();
     }
 
     public String getTableName() {
-        return CATEGORY_TABLE;
+        return WAREHOUSE_TABLE;
     }
-
 }

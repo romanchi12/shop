@@ -1,15 +1,15 @@
 package org.romanchi.database.entities;
 
 public class Category {
-    private Long categoryId;
+    private long categoryId;
     private String categoryName;
     public Category(){}
 
-    public Long getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 

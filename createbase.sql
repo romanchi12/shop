@@ -90,7 +90,7 @@ create table UserRole
 );
 
 /*==============================================================*/
-/* Table: Warehouse                                             */
+/* Table: WarehouseItem                                             */
 /*==============================================================*/
 create table Warehouse
 (

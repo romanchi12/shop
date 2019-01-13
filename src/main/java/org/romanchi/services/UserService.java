@@ -1,16 +1,15 @@
 package org.romanchi.services;
 
 import org.romanchi.Wired;
-import org.romanchi.database.dao.TestDao;
-import org.romanchi.database.dao.UserDao;
-import org.romanchi.database.dao.UserRoleDao;
+import org.romanchi.database.dao.*;
+import org.romanchi.database.entities.Product;
 import org.romanchi.database.entities.User;
 import org.romanchi.database.entities.UserRole;
+import org.romanchi.database.entities.WarehouseItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 public class UserService {
 
@@ -20,11 +19,32 @@ public class UserService {
     @Wired
     UserRoleDao userRoleDao;
 
+    @Wired
+    CategoryDao categoryDao;
+
+    @Wired
+    WarehouseItemDao warehouseItemDao;
+
+    @Wired
+    ProductDao productDao;
 
     public String getData(){
-        //deleteUserRole();
-        return "user service: " + userRoleDao.findById(1);
+        StringBuilder builder = new StringBuilder();
+        Product product = new Product();
+        product.setProductName("Сир-масло");
+        product.setProductPrice(40.52);
+        product.setProductDescription("Гарне масло, сир масний");
+        product.setCategory(categoryDao.findById(3).get());
+        product.setWarehouseItem(warehouseItemDao.findById(8).get());
+        product.setProductImgSrc("image.jpg");
+        long id = productDao.save(product);
+        builder.append(id);
+        /*WarehouseItem toUpdate = warehouseItemDao.findById(savedId).get();
+        toUpdate.setWarehouseItemQuantity(150.0);
+        warehouseItemDao.save(toUpdate);*/
+        return "user service: " + builder;
     }
+
     public void deleteUserRole(){
         userRoleDao.delete(userRoleDao.findById(4).get());
     }

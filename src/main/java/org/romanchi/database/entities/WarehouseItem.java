@@ -1,31 +1,31 @@
 package org.romanchi.database.entities;
 
-public class Warehouse {
-    private Long warehouseItemId;
-    private String warehouseItemQuantity;
+public class WarehouseItem {
+    private long warehouseItemId;
+    private Double warehouseItemQuantity;
 
-    public Warehouse() {
+    public WarehouseItem() {
     }
 
-    public Long getWarehouseItemId() {
+    public long getWarehouseItemId() {
         return warehouseItemId;
     }
 
-    public void setWarehouseItemId(Long warehouseItemId) {
+    public void setWarehouseItemId(long warehouseItemId) {
         this.warehouseItemId = warehouseItemId;
     }
 
-    public String getWarehouseItemQuantity() {
+    public Double getWarehouseItemQuantity() {
         return warehouseItemQuantity;
     }
 
-    public void setWarehouseItemQuantity(String warehouseItemQuantity) {
+    public void setWarehouseItemQuantity(Double warehouseItemQuantity) {
         this.warehouseItemQuantity = warehouseItemQuantity;
     }
 
     @Override
     public String toString() {
-        return "Warehouse{" +
+        return "WarehouseItem{" +
                 "warehouseItemId=" + warehouseItemId +
                 ", warehouseItemQuantity='" + warehouseItemQuantity + '\'' +
                 '}';

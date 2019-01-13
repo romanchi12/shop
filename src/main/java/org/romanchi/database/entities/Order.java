@@ -1,7 +1,7 @@
 package org.romanchi.database.entities;
 
 public class Order {
-    private Long orderId;
+    private long orderId;
     private User user;
     private Integer orderStatus;
 

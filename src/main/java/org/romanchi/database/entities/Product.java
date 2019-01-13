@@ -1,8 +1,8 @@
 package org.romanchi.database.entities;
 
 public class Product {
-    private Long productId;
-    private Warehouse WarehouseItem;
+    private long productId;
+    private org.romanchi.database.entities.WarehouseItem WarehouseItem;
     private Category category;
     private String productName;
     private String productDescription;
@@ -12,19 +12,19 @@ public class Product {
     public Product() {
     }
 
-    public Long getProductId() {
+    public long getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(long productId) {
         this.productId = productId;
     }
 
-    public Warehouse getWarehouseItem() {
+    public org.romanchi.database.entities.WarehouseItem getWarehouseItem() {
         return WarehouseItem;
     }
 
-    public void setWarehouseItem(Warehouse warehouseItem) {
+    public void setWarehouseItem(org.romanchi.database.entities.WarehouseItem warehouseItem) {
         WarehouseItem = warehouseItem;
     }
 

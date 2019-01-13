@@ -13,4 +13,22 @@ public class Column {
     public static final String USERROLE_USERROLE_ID = "UserRole.UserRoleId";
     public static final String USERROLE_USERROLENAME = "UserRole.UserRoleName";
 
+    //Category
+    public static final String CATEGORY_CATEGORY_ID = "Category.CategoryId";
+    public static final String CATEGORY_CATEGORYNAME = "Category.CategoryName";
+
+    //WarehouseItem
+    public static final String WAREHOUSE_WAREHOUSEITEM_ID = "WarehouseItem.WarehouseItemId";
+    public static final String WAREHOUSE_WAREHOUSE_ITEM_QUANTITY = "WarehouseItem.WarehouseItemQuantity";
+
+    //Product
+    public static final String PRODUCT_PRODUCT_ID = "Product.ProductId";
+    public static final String PRODUCT_WAREHOUSEITEM_ID = "Product.WarehouseItemId";
+    public static final String PRODUCT_CATEGORY_ID = "Product.CategoryId";
+    public static final String PRODUCT_PRODUCT_NAME = "Product.ProductName";
+    public static final String PRODUCT_PRODUCT_DESCRIPTION = "Product.ProductDescription";
+    public static final String PRODUCT_PRODUCT_PRICE = "Product.ProductPrice";
+    public static final String PRODUCT_PRODUCT_IMAGESRC = "Product.ProductImageSrc";
+
+
 }
