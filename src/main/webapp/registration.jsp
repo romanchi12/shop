@@ -9,8 +9,8 @@
 %>
 <html>
 <head>
-    <title><fmt:message key="Registration"/></title>
     <%@include file="WEB-INF/jspf/includes.jspx"%>
+    <title><fmt:message key="Registration"/></title>
 </head>
 <body>
 <div class="page">
@@ -29,6 +29,9 @@
                 <fmt:message key="Language" var="LanguageMsg"/>
 
                 <div class="form-group">
+                    <h2 class="form-heading"><fmt:message key="Registration"/></h2>
+                    <div class="alert alert-danger" style="${errorMessage==null?'display:none;':'display:block'}" role="alert">${errorMessage}</div>
+                    <br/>
                     <input name="email" type="text" class="form-control" placeholder="Email"
                            autofocus="true"/>
                     <br/>

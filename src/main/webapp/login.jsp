@@ -22,7 +22,8 @@
             <div class="col-xs-12 col-md-8 col-lg-6">
                 <form method="POST" action="/Controller?controller=LoginController" class="form-signin">
                     <h2 class="form-heading"><fmt:message key="Login" var="LoginMsg"/>${LoginMsg}</h2>
-
+                    <div class="alert alert-danger" style="${errorMessage==null?'display:none;':'display:block;'}" role="alert">${errorMessage}</div>
+                    <br/>
                     <div class="form-group">
                         <input name="email" type="text" class="form-control" placeholder="Email"
                                autofocus="true"/>

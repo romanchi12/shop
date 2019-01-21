@@ -3,8 +3,11 @@ package org.romanchi.services;
 import org.romanchi.Wired;
 import org.romanchi.database.dao.*;
 import org.romanchi.database.entities.*;
+import org.romanchi.validators.EmailValidator;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class UserService {
 
@@ -14,9 +17,33 @@ public class UserService {
     @Wired
     UserRoleDao userRoleDao;
 
+    @Wired
+    EmailValidator emailValidator;
+
+    @Wired
+    Logger logger;
+
     public Optional<User> login(String email, String password) {
-        Optional<User> userOptional = userDao.findByEmailAndPassword(email,password);
-        return userOptional;
+        if(!emailValidator.validate(email)){
+            return Optional.empty();
+        }
+        return userDao.findByEmailAndPassword(email,password);
+    }
+
+    public Optional<User> register(User user){
+        if(!emailValidator.validate(user.getUserEmail())){
+            return Optional.empty();
+        }
+
+        Optional<User> userOptional = userDao.
+                findByEmailAndPassword(user.getUserEmail(),user.getUserPassword());
+        if(userOptional.isPresent()){
+            return Optional.empty();
+        }
+        long userId = saveUser(user);
+        logger.info(String.valueOf(userId));
+        user.setUserId(userId);
+        return Optional.of(user);
     }
 
     public UserRole getUserRoleByName(String aDefault) {
@@ -29,7 +56,6 @@ public class UserService {
     }
 
     public long saveUser(User user) {
-        long userId = userDao.save(user);
-        return userId;
+        return userDao.save(user);
     }
 }

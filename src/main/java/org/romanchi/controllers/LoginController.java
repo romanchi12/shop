@@ -28,7 +28,7 @@ public class LoginController implements Controller {
             request.setAttribute("user", userToLogin);
             return "/Controller?controller=GetProductsPageController";
         }
-        request.setAttribute("errorMessage","No such user");
-        return "/error.jsp";
+        request.setAttribute("errorMessage","Bad email or password");
+        return "/login.jsp";
     }
 }

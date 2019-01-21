@@ -1,6 +1,7 @@
 package org.romanchi.filters;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.json.simple.JSONObject;
 import org.romanchi.database.entities.User;
 import org.romanchi.database.entities.UserRole;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class AccessFilter implements Filter {
@@ -58,12 +60,30 @@ public class AccessFilter implements Filter {
 
         String controllerParameter = servletRequest.getParameter("controller");
         if(controllerParameter==null){
+            if(((HttpServletRequest) servletRequest).getRequestURI().contains("Ajax")){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("status","error");
+                jsonObject.put("errorMessage", "No such controller");
+                response.setHeader("Content-Type","application/json");
+                response.getOutputStream().print(jsonObject.toJSONString());
+                response.getOutputStream().flush();
+                return;
+            }
             response.sendRedirect("/error.jsp");
             return;
         }
         String controller = StringEscapeUtils.escapeHtml4(controllerParameter);
         if(request.getSession().getAttribute("user")==null){
             if(defaultUserControllers.contains(controller)||adminControllers.contains(controller)){
+                if(((HttpServletRequest)servletRequest).getRequestURI().contains("Ajax")){
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("status","error");
+                    jsonObject.put("errorMessage", "You need to login");
+                    response.setHeader("Content-Type","application/json");
+                    response.getOutputStream().print(jsonObject.toJSONString());
+                    response.getOutputStream().flush();
+                    return;
+                }
                 response.sendRedirect("/login.jsp");
                 return;
             }else{

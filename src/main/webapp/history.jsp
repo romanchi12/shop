@@ -24,32 +24,43 @@
 
         </div>
         <div class="col-xs-12 col-md-8 col-lg-6">
-            <c:forEach items="${ordersMap}" var="order">
-                <div class="panel panel-${order.key.orderStatus==1?'success':'info'}">
-                    <div class="panel-heading">#${order.key.orderId}</div>
-                    <div class="panel-body">
-                        <p><fmt:message key="SummaryPrice"/>: ${order.key.summaryPrice}</p>
-                    </div>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col"><fmt:message key="ProductName"/></th>
-                            <th scope="col"><fmt:message key="Quantity"/></th>
-                            <th scope="col"><fmt:message key="ProductPrice"/></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${order.value}" var="orderitemdto">
-                                <tr class="orderitem">
-                                    <th scope="row">${orderitemdto.productName}</th>
-                                    <td>${orderitemdto.orderItemQuantity}</td>
-                                    <td>${orderitemdto.productPrice}</td>
+            <c:choose>
+                <c:when test="${ordersMap.size()>0}">
+                    <c:forEach items="${ordersMap}" var="order">
+                        <div class="panel panel-${order.key.orderStatus==1?'success':'info'}">
+                            <div class="panel-heading">#${order.key.orderId}</div>
+                            <div class="panel-body">
+                                <p><fmt:message key="SummaryPrice"/>: ${order.key.summaryPrice}</p>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"><fmt:message key="ProductName"/></th>
+                                    <th scope="col"><fmt:message key="Quantity"/></th>
+                                    <th scope="col"><fmt:message key="ProductPrice"/></th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:forEach>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${order.value}" var="orderitemdto">
+                                        <tr class="orderitem">
+                                            <th scope="row">${orderitemdto.productName}</th>
+                                            <td>${orderitemdto.orderItemQuantity}</td>
+                                            <td>${orderitemdto.productPrice}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <fmt:message key="YourHistoryIsEmpty"/>
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="hidden-xs col-md-2 col-lg-3">
 

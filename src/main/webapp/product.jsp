@@ -81,6 +81,7 @@ $(document).ready(function(){
                 }, 1500);
             }
         }).fail(function(e){
+            console.log(e);
             notifier = $(".notifier");
             notifier.html("Ajax error");
             notifier.fadeToggle();
