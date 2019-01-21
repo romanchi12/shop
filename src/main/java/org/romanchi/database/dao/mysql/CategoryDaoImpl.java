@@ -50,6 +50,11 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
+    public Iterable<Category> findTenFrom(int from) {
+        return findByDynamicSelect(SQL_SELECT +" ORDER BY " + CATEGORY_CATEGORY_ID +" DESC LIMIT 10 OFFSET ?", new Object[]{from});
+    }
+
+    @Override
     public Optional<Category> findById(long сategoryId) {
         return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + CATEGORY_CATEGORY_ID + "=? ORDER BY " + CATEGORY_CATEGORY_ID, new Object[]{сategoryId});
     }
@@ -61,7 +66,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
     }
 
-    //"INSERT INTO User(CategoryId, TeamId, UserLogin, UserPassword, IsCaptain) VALUES(?,?,?,?,?)";
     @Override
     public long save(Category newCategory) {
         if(existsById(newCategory.getCategoryId())){
@@ -105,7 +109,6 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
-    //"UPDATE User SET CategoryId=?, TeamId=?, UserLogin=?, UserPassword=?, IsCaptain=? WHERE UserId = ?";
     private long update(Category newCategory) {
         Connection connection = null;
         try {
@@ -163,7 +166,6 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
-    //"DELETE FROM User WHERE User.UserId=?";
     @Override
     public void delete(Category categoryToDelete)  {
         try (Connection connection = dataSource.getConnection()) {
@@ -171,13 +173,13 @@ public class CategoryDaoImpl implements CategoryDao {
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
                 statement.setLong(1, categoryToDelete.getCategoryId());
                 int affectedRows = statement.executeUpdate();
+                connection.commit();
+                connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 connection.rollback();
                 connection.setAutoCommit(true);
             }
-            connection.commit();
-            connection.setAutoCommit(true);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -216,7 +218,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
             return fetchMultiResults(resultSet);
         } catch (SQLException exception) {
-            //logger.error(ex, ex);
             exception.printStackTrace();
             return new ArrayList<>();
         }

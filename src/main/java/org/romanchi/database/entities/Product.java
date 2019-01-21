@@ -2,7 +2,7 @@ package org.romanchi.database.entities;
 
 public class Product {
     private long productId;
-    private org.romanchi.database.entities.WarehouseItem WarehouseItem;
+    private WarehouseItem WarehouseItem;
     private Category category;
     private String productName;
     private String productDescription;
@@ -20,11 +20,11 @@ public class Product {
         this.productId = productId;
     }
 
-    public org.romanchi.database.entities.WarehouseItem getWarehouseItem() {
+    public WarehouseItem getWarehouseItem() {
         return WarehouseItem;
     }
 
-    public void setWarehouseItem(org.romanchi.database.entities.WarehouseItem warehouseItem) {
+    public void setWarehouseItem(WarehouseItem warehouseItem) {
         WarehouseItem = warehouseItem;
     }
 

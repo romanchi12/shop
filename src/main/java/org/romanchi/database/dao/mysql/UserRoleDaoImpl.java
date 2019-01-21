@@ -64,7 +64,6 @@ public class UserRoleDaoImpl implements UserRoleDao {
 
     }
 
-    //"INSERT INTO User(UserRoleId, TeamId, UserLogin, UserPassword, IsCaptain) VALUES(?,?,?,?,?)";
     @Override
     public long save(UserRole newUserRole) {
         if(existsById(newUserRole.getUserRoleId())){
@@ -108,7 +107,6 @@ public class UserRoleDaoImpl implements UserRoleDao {
         }
     }
 
-    //"UPDATE User SET UserRoleId=?, TeamId=?, UserLogin=?, UserPassword=?, IsCaptain=? WHERE UserId = ?";
     private long update(UserRole newUserRole) {
         Connection connection = null;
         try {
@@ -166,7 +164,6 @@ public class UserRoleDaoImpl implements UserRoleDao {
         }
     }
 
-    //"DELETE FROM User WHERE User.UserId=?";
     @Override
     public void delete(UserRole userRoleToDelete)  {
         try (Connection connection = dataSource.getConnection()) {
@@ -219,7 +216,6 @@ public class UserRoleDaoImpl implements UserRoleDao {
 
             return fetchMultiResults(resultSet);
         } catch (SQLException exception) {
-            //logger.error(ex, ex);
             exception.printStackTrace();
             return new ArrayList<>();
         }

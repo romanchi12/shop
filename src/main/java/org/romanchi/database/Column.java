@@ -8,6 +8,8 @@ public class Column {
     public static final String USER_USEREMAIL = "User.UserEmail";
     public static final String USER_USERPASSWORD = "User.UserPassword";
     public static final String USER_USERUSERROLE_ID = "User.UserRoleId";
+    public static final String USER_USERADDRESS = "User.UserAddress";
+    public static final String USER_USERLANGUAGE = "User.UserLanguage";
 
     //UserRole
     public static final String USERROLE_USERROLE_ID = "UserRole.UserRoleId";
@@ -29,6 +31,17 @@ public class Column {
     public static final String PRODUCT_PRODUCT_DESCRIPTION = "Product.ProductDescription";
     public static final String PRODUCT_PRODUCT_PRICE = "Product.ProductPrice";
     public static final String PRODUCT_PRODUCT_IMAGESRC = "Product.ProductImageSrc";
+
+    public static final String ORDER_ORDER_ID = "Order.OrderId";
+    public static final String ORDER_USER_ID = "Order.UserId";
+    public static final String ORDER_ORDER_STATUS = "Order.OrderStatus";
+    public static final String ORDER_SUMMARY_PRICE = "Order.SummaryPrice";
+
+    public static final String ORDERITEM_PRODUCT_ID = "OrderItem.ProductId";
+    public static final String ORDERITEM_ORDER_ID = "OrderItem.OrderId";
+    public static final String ORDERITEM_ORDER_ITEM_QUANTITY = "OrderItem.OrderItemQuantity";
+
+
 
 
 }

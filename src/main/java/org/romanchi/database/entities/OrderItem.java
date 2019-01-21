@@ -3,6 +3,7 @@ package org.romanchi.database.entities;
 public class OrderItem {
     private Product product;
     private Order order;
+    private Double orderItemQuantity;
 
     public OrderItem() {
     }
@@ -23,11 +24,20 @@ public class OrderItem {
         this.order = order;
     }
 
+    public Double getOrderItemQuantity() {
+        return orderItemQuantity;
+    }
+
+    public void setOrderItemQuantity(Double orderItemQuantity) {
+        this.orderItemQuantity = orderItemQuantity;
+    }
+
     @Override
     public String toString() {
         return "OrderItem{" +
                 "product=" + product +
                 ", order=" + order +
+                ", orderItemQuantity=" + orderItemQuantity +
                 '}';
     }
 }

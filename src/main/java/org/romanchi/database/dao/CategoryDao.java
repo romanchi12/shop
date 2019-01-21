@@ -12,6 +12,8 @@ public interface CategoryDao {
 
     Iterable<Category> findAll();
 
+    Iterable<Category> findTenFrom(int from);
+
     long count();
 
     void delete(Category categoryToDelete);

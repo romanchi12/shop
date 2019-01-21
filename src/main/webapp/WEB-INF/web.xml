@@ -2,6 +2,23 @@
     <listener>
         <listener-class>org.romanchi.listeners.ContextListener</listener-class>
     </listener>
+    <filter>
+        <filter-name>Encoding filter</filter-name>
+        <filter-class>org.romanchi.filters.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Encoding filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>org.romanchi.filters.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/Controller</url-pattern>
+        <url-pattern>/Ajax</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>DispatcherServlet</servlet-name>
         <servlet-class>org.romanchi.controllers.DispatcherServlet</servlet-class>
@@ -9,5 +26,27 @@
     <servlet-mapping>
         <servlet-name>DispatcherServlet</servlet-name>
         <url-pattern>/Controller</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AjaxServlet</servlet-name>
+        <servlet-class>org.romanchi.controllers.AjaxServlet</servlet-class>
+        <multipart-config>
+            <!-- enter your values -->
+            <location>C:\Users\Roman\IdeaProjects\shop\src\main\webapp\resources\images</location>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>20971520</max-request-size>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxServlet</servlet-name>
+        <url-pattern>/Ajax</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>org.romanchi.controllers.ImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/images/*</url-pattern>
     </servlet-mapping>
 </web-app>

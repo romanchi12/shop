@@ -7,16 +7,22 @@ public class User {
     private String userEmail;
     private String userPassword;
     private UserRole userUserRole;
+    private String userAddress;
+    private String userLanguage;
 
-
+    //todo: add useradress
     public User() {
     }
-    public User(String userName, String userSurname, String userEmail, String userPassword, UserRole userUserRole) {
+
+    public User(long userId, String userName, String userSurname, String userEmail, String userPassword, UserRole userUserRole, String userAddress, String userLanguage) {
+        this.userId = userId;
         this.userName = userName;
         this.userSurname = userSurname;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userUserRole = userUserRole;
+        this.userAddress = userAddress;
+        this.userLanguage = userLanguage;
     }
 
     public long getUserId() {
@@ -67,6 +73,22 @@ public class User {
         this.userUserRole = userUserRole;
     }
 
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public String getUserLanguage() {
+        return userLanguage;
+    }
+
+    public void setUserLanguage(String userLanguage) {
+        this.userLanguage = userLanguage;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -76,6 +98,8 @@ public class User {
                 ", userEmail='" + userEmail + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", userUserRole=" + userUserRole +
+                ", userAddress='" + userAddress + '\'' +
+                ", userLanguage='" + userLanguage + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,8 @@
 package org.romanchi.database.entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Category {
     private long categoryId;
     private String categoryName;
@@ -27,5 +30,11 @@ public class Category {
                 "categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 '}';
+    }
+    public Map<String,Object> toMap(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("categoryId", getCategoryId());
+        map.put("categoryName", getCategoryName());
+        return map;
     }
 }

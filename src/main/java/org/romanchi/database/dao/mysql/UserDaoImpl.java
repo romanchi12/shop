@@ -32,6 +32,8 @@ public class UserDaoImpl implements UserDao {
             USER_USEREMAIL + ", " +
             USER_USERPASSWORD + ", " +
             USER_USERUSERROLE_ID + ", " +
+            USER_USERADDRESS + ", " +
+            USER_USERLANGUAGE + ", " +
             USERROLE_USERROLE_ID + ", " +
             USERROLE_USERROLENAME + " " +
             " FROM " + USER_TABLE +
@@ -43,18 +45,22 @@ public class UserDaoImpl implements UserDao {
             USER_USERSURNAME + ", " +
             USER_USEREMAIL + ", " +
             USER_USERPASSWORD + ", " +
-            USER_USERUSERROLE_ID + ") VALUES(?,?,?,?,?)";
+            USER_USERUSERROLE_ID + ", " +
+            USER_USERADDRESS + ", " +
+            USER_USERLANGUAGE + ") VALUES(?,?,?,?,?,?,?)";
 
-    private final String SQL_UPDATE = "UPDATE " + getTableName() + " SET " +
+    private final String SQL_UPDATE = "UPDATE " + USER_TABLE + " SET " +
             USER_USERNAME + "=?, " +
             USER_USERSURNAME + "=?, " +
             USER_USEREMAIL + "=?, " +
             USER_USERPASSWORD + "=?, " +
-            USER_USERUSERROLE_ID + "=? WHERE " + Column.USER_USER_ID + "=?";
+            USER_USERUSERROLE_ID + "=?, " +
+            USER_USERADDRESS + "=?, " +
+            USER_USERLANGUAGE + "=? WHERE " + USER_USER_ID + "=?";
 
     private final String SQL_COUNT = "SELECT COUNT(*) FROM " + USER_TABLE;
 
-    private final String SQL_DELETE = "DELETE FROM " + getTableName() + " WHERE " + Column.USER_USER_ID + "=?";
+    private final String SQL_DELETE = "DELETE FROM " + USER_TABLE + " WHERE " + Column.USER_USER_ID + "=?";
 
     @Wired
     private DataSource dataSource; //a
@@ -96,6 +102,8 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(3, newUser.getUserEmail());
             preparedStatement.setString(4, newUser.getUserPassword());
             preparedStatement.setLong(5, newUser.getUserUserRole().getUserRoleId());
+            preparedStatement.setString(6, newUser.getUserAddress());
+            preparedStatement.setString(7, newUser.getUserLanguage());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -140,7 +148,9 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(3, newUser.getUserEmail());
             preparedStatement.setString(4, newUser.getUserPassword());
             preparedStatement.setLong(5, newUser.getUserUserRole().getUserRoleId());
-            preparedStatement.setLong(6,newUser.getUserId());
+            preparedStatement.setString(6,newUser.getUserAddress());
+            preparedStatement.setString(7,newUser.getUserLanguage());
+            preparedStatement.setLong(8,newUser.getUserId());
             int affectedRows = preparedStatement.executeUpdate();
             connection.commit();
             return affectedRows;
@@ -252,9 +262,9 @@ public class UserDaoImpl implements UserDao {
         Collection<User> users = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                User dto = new User();
-                populateEntity(dto, resultSet);
-                users.add(dto);
+                User entity = new User();
+                populateEntity(entity, resultSet);
+                users.add(entity);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -285,6 +295,8 @@ public class UserDaoImpl implements UserDao {
             entity.setUserSurname(resultSet.getString(USER_USERSURNAME));
             entity.setUserEmail(resultSet.getString(USER_USEREMAIL));
             entity.setUserPassword(resultSet.getString(USER_USERPASSWORD));
+            entity.setUserAddress(resultSet.getString(USER_USERADDRESS));
+            entity.setUserLanguage(resultSet.getString(USER_USERLANGUAGE));
             UserRole userRole = new UserRole();
             userRole.setUserRoleId(resultSet.getLong(USER_USERUSERROLE_ID));
             userRole.setUserRoleName(resultSet.getString(USERROLE_USERROLENAME));

@@ -54,7 +54,6 @@ public class WarehouseItemDaoImpl implements WarehouseItemDao {
         return findSingleByDynamicSelect(SQL_SELECT + " WHERE " + WAREHOUSE_WAREHOUSEITEM_ID + "=? ORDER BY " + WAREHOUSE_WAREHOUSEITEM_ID, new Object[]{сategoryId});
     }
 
-    //"INSERT INTO User(WarehouseId, TeamId, UserLogin, UserPassword, IsCaptain) VALUES(?,?,?,?,?)";
     @Override
     public long save(WarehouseItem newWarehouseItem) {
         if(existsById(newWarehouseItem.getWarehouseItemId())){
@@ -98,7 +97,6 @@ public class WarehouseItemDaoImpl implements WarehouseItemDao {
         }
     }
 
-    //"UPDATE User SET WarehouseId=?, TeamId=?, UserLogin=?, UserPassword=?, IsCaptain=? WHERE UserId = ?";
     private long update(WarehouseItem newWarehouseItem) {
         Connection connection = null;
         try {
@@ -156,7 +154,6 @@ public class WarehouseItemDaoImpl implements WarehouseItemDao {
         }
     }
 
-    //"DELETE FROM User WHERE User.UserId=?";
     @Override
     public void delete(WarehouseItem warehouseItemToDelete)  {
         try (Connection connection = dataSource.getConnection()) {
@@ -209,7 +206,6 @@ public class WarehouseItemDaoImpl implements WarehouseItemDao {
 
             return fetchMultiResults(resultSet);
         } catch (SQLException exception) {
-            //logger.error(ex, ex);
             exception.printStackTrace();
             return new ArrayList<>();
         }

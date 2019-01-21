@@ -1,8 +1,6 @@
 package org.romanchi.database.dao;
 
-import org.romanchi.database.entities.Category;
 import org.romanchi.database.entities.Product;
-import org.romanchi.database.entities.User;
 
 import java.util.Optional;
 
@@ -25,4 +23,9 @@ public interface ProductDao {
 
     Iterable<Product> findAllPriceBetween(double priceLow, double priceHigh);
 
+    Iterable<Product> findTenFrom(int from, String sort);
+
+    Iterable<Product> findTenByCategoryIdFrom(int from, long categoryId, String sort);
+
+    Iterable<Product> findAllProductNameContains(String query);
 }

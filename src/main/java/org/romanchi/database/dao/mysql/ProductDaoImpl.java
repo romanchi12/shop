@@ -5,6 +5,7 @@ import org.romanchi.database.dao.ProductDao;
 import org.romanchi.database.entities.Category;
 import org.romanchi.database.entities.Product;
 import org.romanchi.database.entities.WarehouseItem;
+import sun.dc.pr.PRError;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -97,13 +98,51 @@ public class ProductDaoImpl implements ProductDao {
     }
 
 
-    /*SQL_INSERT = "INSERT INTO " + PRODUCT_TABLE +
-            "(" + PRODUCT_WAREHOUSEITEM_ID + ", " +
-    PRODUCT_CATEGORY_ID + ", " +
-    PRODUCT_PRODUCT_NAME + ", " +
-    PRODUCT_PRODUCT_DESCRIPTION + ", " +
-    PRODUCT_PRODUCT_PRICE + ", " +
-    PRODUCT_PRODUCT_IMAGESRC + ") VALUES(?,?,?,?,?,?)";*/
+
+    @Override
+    public Iterable<Product> findTenFrom(int from, String sort) {
+        logger.info(String.valueOf(from));
+        String sorting = null;
+        switch (sort){
+            case "ID":{
+                sorting = PRODUCT_PRODUCT_ID + " DESC ";
+                break;
+            }
+            case "PRICE_DESC":{
+                sorting = PRODUCT_PRODUCT_PRICE + " DESC ";
+                break;
+            }
+            case "PRICE_ASC":{
+                sorting = PRODUCT_PRODUCT_PRICE + " ASC ";
+            }
+        }
+        return findByDynamicSelect(SQL_SELECT +" ORDER BY " + sorting +" LIMIT 10 OFFSET ?", new Object[]{from});
+    }
+
+    @Override
+    public Iterable<Product> findTenByCategoryIdFrom(int from, long categoryId, String sort) {
+        String sorting = null;
+        switch (sort){
+            case "ID":{
+                sorting = PRODUCT_PRODUCT_ID + " DESC ";
+                break;
+            }
+            case "PRICE_DESC":{
+                sorting = PRODUCT_PRODUCT_PRICE + " DESC ";
+                break;
+            }
+            case "PRICE_ASC":{
+                sorting = PRODUCT_PRODUCT_PRICE + " ASC ";
+            }
+        }
+        return findByDynamicSelect(SQL_SELECT + " WHERE " + PRODUCT_CATEGORY_ID + "=? ORDER BY " + sorting +" LIMIT 10 OFFSET ?", new Object[]{categoryId,from});
+    }
+
+    @Override
+    public Iterable<Product> findAllProductNameContains(String query) {
+        return findByDynamicSelect(SQL_SELECT + " WHERE " + PRODUCT_PRODUCT_NAME + " LIKE ? ORDER BY " + PRODUCT_PRODUCT_ID + " LIMIT 5", new Object[]{"%" + query + "%"});
+    }
+
     @Override
     public long save(Product newProduct) {
         if(existsById(newProduct.getProductId())){
@@ -152,14 +191,6 @@ public class ProductDaoImpl implements ProductDao {
         }
     }
 
-
-    /*SQL_UPDATE = "UPDATE " + PRODUCT_TABLE + " SET " +
-    PRODUCT_WAREHOUSEITEM_ID + "=?, " +
-    PRODUCT_CATEGORY_ID + "=?, " +
-    PRODUCT_PRODUCT_NAME + "=?, " +
-    PRODUCT_PRODUCT_DESCRIPTION + "=?, " +
-    PRODUCT_PRODUCT_PRICE + "=?, " +
-    PRODUCT_PRODUCT_IMAGESRC + "=? WHERE " + PRODUCT_PRODUCT_ID + "=?";*/
     private long update(Product newProduct) {
         Connection connection = null;
         try {
@@ -330,9 +361,6 @@ public class ProductDaoImpl implements ProductDao {
             entity = null;
         }
     }
-
-
-
 
     public String getTableName() {
         return "Product";
