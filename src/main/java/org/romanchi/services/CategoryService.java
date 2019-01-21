@@ -9,12 +9,13 @@ import java.util.List;
 
 public class CategoryService {
     @Wired
+    private
     CategoryDao categoryDao;
 
     public List<Category> getAllCategories(){
         Iterable<Category> categoryIterable = categoryDao.findAll();
         List<Category> categoryList = new ArrayList<>();
-        categoryIterable.forEach(category-> categoryList.add(category));
+        categoryIterable.forEach(categoryList::add);
         return categoryList;
     }
 }

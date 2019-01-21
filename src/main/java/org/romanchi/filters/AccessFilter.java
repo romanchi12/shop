@@ -18,9 +18,9 @@ public class AccessFilter implements Filter {
 
     private static final Logger logger = Logger.getLogger(AccessFilter.class.getName());
 
-    List<String> publicControllers = new ArrayList<>();
-    List<String> defaultUserControllers = new ArrayList<>();
-    List<String> adminControllers = new ArrayList<>();
+    private List<String> publicControllers = new ArrayList<>();
+    private List<String> defaultUserControllers = new ArrayList<>();
+    private List<String> adminControllers = new ArrayList<>();
 
     @Override
     public void init(FilterConfig filterConfig) {

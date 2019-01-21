@@ -15,7 +15,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private final static Logger logger = Logger.getLogger(DispatcherServlet.class.getName());
 
-    ControllerManager controllerManager = new ControllerManager();
+    private ControllerManager controllerManager = new ControllerManager();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

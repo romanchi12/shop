@@ -25,7 +25,7 @@ public class GetAllCategoriesAjaxController implements Controller {
         List<JSONObject> categoriesJsonObjects = new ArrayList<>();
         categories.forEach(category -> categoriesJsonObjects.add(new JSONObject(category.toMap())));
         JSONArray jsonArray = new JSONArray();
-        categoriesJsonObjects.forEach(category -> jsonArray.add(category));
+        jsonArray.addAll(categoriesJsonObjects);
         return jsonArray.toJSONString();
     }
 }

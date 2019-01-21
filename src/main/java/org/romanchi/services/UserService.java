@@ -12,15 +12,19 @@ import java.util.logging.Logger;
 public class UserService {
 
     @Wired
+    private
     UserDao userDao;
 
     @Wired
+    private
     UserRoleDao userRoleDao;
 
     @Wired
+    private
     EmailValidator emailValidator;
 
     @Wired
+    private
     Logger logger;
 
     public Optional<User> login(String email, String password) {
@@ -48,11 +52,7 @@ public class UserService {
 
     public UserRole getUserRoleByName(String aDefault) {
         Optional<UserRole> userRole = userRoleDao.findByUserRoleName(aDefault);
-        if(userRole.isPresent()){
-            return userRole.get();
-        }else{
-            return null;
-        }
+        return userRole.orElse(null);
     }
 
     public long saveUser(User user) {

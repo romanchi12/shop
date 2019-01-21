@@ -102,7 +102,6 @@ public class AddProductToCartAjaxController implements Controller {
         productService.saveWarehouseItem(warehouseItem);
         respMap.put("status","ok");
         respMap.put("successMessage","Added");
-        String json = new JSONObject(respMap).toJSONString();
-        return json;
+        return new JSONObject(respMap).toJSONString();
     }
 }

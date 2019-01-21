@@ -22,22 +22,21 @@ import java.util.logging.Logger;
 public class OrderService {
 
     @Wired
+    private
     OrderDao orderDao;
 
     @Wired
+    private
     OrderItemDao orderItemDao;
 
     @Wired
+    private
     Logger logger;
 
     public OrderItem findOrderItemByProductAndOrder(Product product, Order order){
         Optional<OrderItem> orderItemOptional = orderItemDao.
                 findByOrderIdAndProductId(order.getOrderId(),product.getProductId());
-        if(orderItemOptional.isPresent()){
-            return orderItemOptional.get();
-        }else{
-            return null;
-        }
+        return orderItemOptional.orElse(null);
     }
 
     public Order findOpenedOrderByUserId(long userId) {
@@ -74,8 +73,7 @@ public class OrderService {
     }
 
     public long saveOrder(Order order) {
-        long orderId = orderDao.save(order);
-        return orderId;
+        return orderDao.save(order);
     }
 
     public String sendEmail(User user, long orderId) {
@@ -129,9 +127,7 @@ public class OrderService {
     public List<Order> findOrdersByUser(User user) {
         Iterable<Order> orderIterable = orderDao.findAllByUserId(user.getUserId());
         List<Order> orders = new ArrayList<>();
-        orderIterable.forEach(order -> {
-            orders.add(order);
-        });
+        orderIterable.forEach(orders::add);
         return orders;
     }
 }

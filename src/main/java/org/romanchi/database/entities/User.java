@@ -10,9 +10,7 @@ public class User {
     private String userAddress;
     private String userLanguage;
 
-    //todo: add useradress
-    public User() {
-    }
+    public User() {}
 
     public User(long userId, String userName, String userSurname, String userEmail, String userPassword, UserRole userUserRole, String userAddress, String userLanguage) {
         this.userId = userId;
