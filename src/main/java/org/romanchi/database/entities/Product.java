@@ -12,6 +12,16 @@ public class Product {
     public Product() {
     }
 
+    public Product(long productId, org.romanchi.database.entities.WarehouseItem warehouseItem, Category category, String productName, String productDescription, Double productPrice, String productImgSrc) {
+        this.productId = productId;
+        WarehouseItem = warehouseItem;
+        this.category = category;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productPrice = productPrice;
+        this.productImgSrc = productImgSrc;
+    }
+
     public long getProductId() {
         return productId;
     }

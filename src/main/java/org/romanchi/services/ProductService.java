@@ -17,24 +17,25 @@ import java.util.logging.Logger;
 
 public class ProductService {
     @Wired
+    private
     ProductDao productDao;
 
     @Wired
+    private
     WarehouseItemDao warehouseItemDao;
 
     @Wired
+    private
     CategoryDao categoryDao;
 
     @Wired
+    private
     Logger logger;
 
 
     public Product getProductById(long productId) {
         Optional<Product> product = productDao.findById(productId);
-        if(product.isPresent()){
-            return product.get();
-        }
-        return null;
+        return product.orElse(null);
     }
     public long saveProduct(Product product) {
         return productDao.save(product);
@@ -51,7 +52,6 @@ public class ProductService {
     public void deleteAllProductsByCategory(Category category) {
         Iterable<Product> products = productDao.findAllByCategoryId(category.getCategoryId());
         products.forEach(product -> {
-            logger.info(product.toString());
             productDao.delete(product);
             warehouseItemDao.delete(product.getWarehouseItem());
         });
@@ -59,28 +59,21 @@ public class ProductService {
 
     public List<ProductDTO> getProductDTOs(Integer page, String sort) {
         int from = 0;
-        if(page==null){
-            from = 0;
-        }else{
+        if(page!=null){
             from = page*10;
         }
         Iterable<Product> productIterable = productDao.findTenFrom(from, sort);
-        List<ProductDTO> productList = processProductIterable(productIterable);
 
-        return productList;
+        return processProductIterable(productIterable);
     }
     public List<ProductDTO> getProductDTOs(Integer page, Long categoryId, String sort) {
         int from = 0;
-        if(page==null){
-            from = 0;
-        }else{
+        if(page!=null){
             from = page*10;
         }
         Iterable<Product> productIterable = productDao.findTenByCategoryIdFrom(from, categoryId, sort);
 
-        List<ProductDTO> productList = processProductIterable(productIterable);
-
-        return productList;
+        return processProductIterable(productIterable);
     }
     private List<ProductDTO> processProductIterable(Iterable<Product> productIterable){
         List<ProductDTO> productList = new ArrayList<>();
@@ -114,11 +107,7 @@ public class ProductService {
 
     public Category getCategoryById(Integer categoryId) {
         Optional<Category> categoryOptional = categoryDao.findById(categoryId);
-        if(categoryOptional.isPresent()){
-            return categoryOptional.get();
-        }else{
-            return null;
-        }
+        return categoryOptional.orElse(null);
     }
     public long saveCategory(Category category) {
         return categoryDao.save(category);
@@ -135,33 +124,26 @@ public class ProductService {
         }
         Iterable<Category> categoryIterable = categoryDao.findTenFrom(from);
         List<Category> categoryList = new ArrayList<>();
-        categoryIterable.forEach(category -> {
-            categoryList.add(category);
-        });
+        categoryIterable.forEach(categoryList::add);
         return categoryList;
     }
     public List<Category> getAllCategories() {
         Iterable<Category> categoryIterable = categoryDao.findAll();
         List<Category> categories = new ArrayList<>();
 
-        categoryIterable.forEach(category -> {
-            categories.add(category);
-        });
+        categoryIterable.forEach(categories::add);
 
         return categories;
     }
 
     public long saveWarehouseItem(WarehouseItem warehouseItem){
-        long id = warehouseItemDao.save(warehouseItem);
-        return id;
+        return warehouseItemDao.save(warehouseItem);
     }
 
     public List<Product> search(String query) {
         Iterable<Product> productIterable = productDao.findAllProductNameContains(query);
         List<Product> productList = new ArrayList<>();
-        productIterable.forEach(product -> {
-            productList.add(product);
-        });
+        productIterable.forEach(productList::add);
         return productList;
     }
 }

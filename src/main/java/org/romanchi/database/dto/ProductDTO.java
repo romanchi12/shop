@@ -3,6 +3,8 @@ package org.romanchi.database.dto;
 import org.romanchi.database.entities.Category;
 import org.romanchi.database.entities.WarehouseItem;
 
+import java.util.Objects;
+
 public class ProductDTO {
     private long productId;
     private long wareHouserItemId;
@@ -98,4 +100,6 @@ public class ProductDTO {
     public void setProductImgSrc(String productImgSrc) {
         this.productImgSrc = productImgSrc;
     }
+
+
 }

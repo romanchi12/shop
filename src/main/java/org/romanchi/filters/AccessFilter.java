@@ -23,7 +23,7 @@ public class AccessFilter implements Filter {
     List<String> adminControllers = new ArrayList<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         publicControllers.add("GetProductsPageController");
         publicControllers.add("GetProductPageController");
         publicControllers.add("LoginController");
