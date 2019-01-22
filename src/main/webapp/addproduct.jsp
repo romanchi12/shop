@@ -51,7 +51,7 @@
                 <br/>
                 <div class="input-group">
                     <span class="input-group-addon">₴</span>
-                    <input type="number" class="form-control" id="productprice" name="productprice">
+                    <input type="text" class="form-control" id="productprice" name="productprice">
                 </div>
                 <br/>
 

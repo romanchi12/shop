@@ -345,7 +345,7 @@ public class ProductDaoImpl implements ProductDao {
             entity.setProductId(resultSet.getLong(PRODUCT_PRODUCT_ID));
             WarehouseItem warehouseItem = new WarehouseItem();
                 warehouseItem.setWarehouseItemId(resultSet.getLong(PRODUCT_WAREHOUSEITEM_ID));
-                warehouseItem.setWarehouseItemQuantity(resultSet.getDouble(WAREHOUSE_WAREHOUSE_ITEM_QUANTITY));
+                warehouseItem.setWarehouseItemQuantity(resultSet.getInt(WAREHOUSE_WAREHOUSE_ITEM_QUANTITY));
             entity.setWarehouseItem(warehouseItem);
             Category category = new Category();
                 category.setCategoryId(resultSet.getLong(PRODUCT_CATEGORY_ID));

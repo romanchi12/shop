@@ -25,11 +25,11 @@ public class UpdateProductAjaxController implements Controller {
         Map<String, Object> respMap = new HashMap<>();
         long productId = 0;
         Double productPrice = null;
-        Double productQuantity = null;
+        Integer productQuantity = null;
         try {
             productId = Long.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productId")));
             productPrice = Double.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productPrice")));
-            productQuantity = Double.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productQuantity")));
+            productQuantity = Integer.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productQuantity")));
         } catch (NumberFormatException e) {
             respMap.put("status","error");
             respMap.put("errorMessage","Bad parameters");

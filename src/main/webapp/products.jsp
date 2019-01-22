@@ -41,7 +41,7 @@
                                 <h3>${product.productName}</h3>
                                 <p>${product.productDescription}</p>
                                 <p>
-                                    <button productId="${product.productId}"
+                                    <button ${product.warehouseItemQuantity<=0?'disabled':''} productId="${product.productId}"
                                             href="/Ajax?controller=AddProductToCartAjaxController"
                                             class="buy btn btn-success" role="button">${product.productPrice} ₴
                                     </button>

@@ -8,7 +8,7 @@ import java.util.Objects;
 public class ProductDTO {
     private long productId;
     private long wareHouserItemId;
-    private Double warehouseItemQuantity;
+    private Integer warehouseItemQuantity;
     private long categoryId;
     private String categoryName;
     private String productName;
@@ -17,7 +17,7 @@ public class ProductDTO {
     private String productImgSrc;
 
 
-    public ProductDTO(long productId, long wareHouserItemId, Double warehouseItemQuantity, long categoryId, String categoryName, String productName, String productDescription, Double productPrice, String productImgSrc) {
+    public ProductDTO(long productId, long wareHouserItemId, Integer warehouseItemQuantity, long categoryId, String categoryName, String productName, String productDescription, Double productPrice, String productImgSrc) {
         this.productId = productId;
         this.wareHouserItemId = wareHouserItemId;
         this.warehouseItemQuantity = warehouseItemQuantity;
@@ -45,11 +45,11 @@ public class ProductDTO {
         this.wareHouserItemId = wareHouserItemId;
     }
 
-    public Double getWarehouseItemQuantity() {
+    public Integer getWarehouseItemQuantity() {
         return warehouseItemQuantity;
     }
 
-    public void setWarehouseItemQuantity(Double warehouseItemQuantity) {
+    public void setWarehouseItemQuantity(Integer warehouseItemQuantity) {
         this.warehouseItemQuantity = warehouseItemQuantity;
     }
 

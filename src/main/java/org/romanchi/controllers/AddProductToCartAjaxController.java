@@ -34,11 +34,11 @@ public class AddProductToCartAjaxController implements Controller {
             return new JSONObject(respMap).toJSONString();
         }
 
-        Double productQuantity = null;
+        Integer productQuantity = null;
         long productId = 0;
         try {
-            productQuantity = (request.getParameter("productQuantity")==null)? Double.valueOf(1)
-                    :Double.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productQuantity")));
+            productQuantity = (request.getParameter("productQuantity")==null)? Integer.valueOf(1)
+                    :Integer.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productQuantity")));
             productId = Long.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productId")));
             if(productQuantity<=0){
                 throw new NumberFormatException();

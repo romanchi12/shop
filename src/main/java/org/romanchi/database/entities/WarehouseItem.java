@@ -2,7 +2,7 @@ package org.romanchi.database.entities;
 
 public class WarehouseItem {
     private long warehouseItemId;
-    private Double warehouseItemQuantity;
+    private Integer warehouseItemQuantity;
 
     public WarehouseItem() {
     }
@@ -15,11 +15,11 @@ public class WarehouseItem {
         this.warehouseItemId = warehouseItemId;
     }
 
-    public Double getWarehouseItemQuantity() {
+    public Integer getWarehouseItemQuantity() {
         return warehouseItemQuantity;
     }
 
-    public void setWarehouseItemQuantity(Double warehouseItemQuantity) {
+    public void setWarehouseItemQuantity(Integer warehouseItemQuantity) {
         this.warehouseItemQuantity = warehouseItemQuantity;
     }
 

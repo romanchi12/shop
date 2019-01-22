@@ -3,7 +3,7 @@ package org.romanchi.database.dto;
 public class OrderItemDTO {
     private long orderId;
     private Double summaryPrice;
-    private Double orderItemQuantity;
+    private Integer orderItemQuantity;
     private long productId;
     private String productName;
     private String productDescription;
@@ -14,7 +14,7 @@ public class OrderItemDTO {
     public OrderItemDTO() {
     }
 
-    public OrderItemDTO(long orderId, Double summaryPrice, Double orderItemQuantity, long productId, String productName, String productDescription, Double productPrice, String productImageSrc) {
+    public OrderItemDTO(long orderId, Double summaryPrice, Integer orderItemQuantity, long productId, String productName, String productDescription, Double productPrice, String productImageSrc) {
         this.orderId = orderId;
         this.summaryPrice = summaryPrice;
         this.orderItemQuantity = orderItemQuantity;
@@ -41,11 +41,11 @@ public class OrderItemDTO {
         this.summaryPrice = summaryPrice;
     }
 
-    public Double getOrderItemQuantity() {
+    public Integer getOrderItemQuantity() {
         return orderItemQuantity;
     }
 
-    public void setOrderItemQuantity(Double orderItemQuantity) {
+    public void setOrderItemQuantity(Integer orderItemQuantity) {
         this.orderItemQuantity = orderItemQuantity;
     }
 

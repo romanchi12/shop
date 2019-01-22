@@ -302,7 +302,7 @@ public class OrderItemDaoImpl implements OrderItemDao {
                 order.setOrderStatus(resultSet.getInt(ORDER_ORDER_STATUS));
                 order.setSummaryPrice(resultSet.getDouble(ORDER_SUMMARY_PRICE));
             entity.setOrder(order);
-            entity.setOrderItemQuantity(resultSet.getDouble(ORDERITEM_ORDER_ITEM_QUANTITY));
+            entity.setOrderItemQuantity(resultSet.getInt(ORDERITEM_ORDER_ITEM_QUANTITY));
         } catch (SQLException e) {
             e.printStackTrace();
             entity = null;

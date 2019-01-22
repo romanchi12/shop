@@ -244,7 +244,7 @@ public class WarehouseItemDaoImpl implements WarehouseItemDao {
     private void populateEntity(WarehouseItem entity, ResultSet resultSet) {
         try {
             entity.setWarehouseItemId(resultSet.getLong(WAREHOUSE_WAREHOUSEITEM_ID));
-            entity.setWarehouseItemQuantity(resultSet.getDouble(WAREHOUSE_WAREHOUSE_ITEM_QUANTITY));
+            entity.setWarehouseItemQuantity(resultSet.getInt(WAREHOUSE_WAREHOUSE_ITEM_QUANTITY));
         } catch (SQLException e) {
             e.printStackTrace();
             entity = null;

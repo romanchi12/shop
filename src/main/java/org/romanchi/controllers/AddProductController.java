@@ -24,7 +24,7 @@ public class AddProductController implements Controller {
 
         try{
             String productName = StringEscapeUtils.escapeHtml4(request.getParameter("productname"));
-            Double productQuantity = Double.
+            Integer productQuantity = Integer.
                     valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productquantity")));
             String productDescribe = StringEscapeUtils.escapeHtml4(request.getParameter("productdescribe"));
             Double productPrice = Double.
@@ -57,7 +57,7 @@ public class AddProductController implements Controller {
 
             return "/Controller?controller=AdminPageController&page=0";
         }catch (NumberFormatException ex){
-            request.setAttribute("errorMessage",ex.getLocalizedMessage());
+            request.setAttribute("errorMessage","Bad parameters");
             return "/error.jsp";
         }
     }
