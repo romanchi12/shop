@@ -13,6 +13,7 @@ public class NoController implements Controller{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("errorMessage","No such controller");
+        logger.info("No such controller");
         return "/error.jsp";
     }
 }

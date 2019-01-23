@@ -7,8 +7,12 @@ import org.romanchi.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Logger;
 
 public class UpdateUserController implements Controller {
+
+    @Wired
+    Logger logger;
 
     @Wired
     UserService userService;
@@ -22,6 +26,7 @@ public class UpdateUserController implements Controller {
         String useraddress = StringEscapeUtils.escapeHtml4(request.getParameter("useraddress"));
         String password = StringEscapeUtils.escapeHtml4(request.getParameter("userpassword"));
         String language = StringEscapeUtils.escapeHtml4(request.getParameter("userlanguage"));
+        logger.finest(email + " " + username + " " + usersurname + " " + useraddress + " " + language);
         user.setUserPassword(password);
         user.setUserAddress(useraddress);
         user.setUserLanguage(language);

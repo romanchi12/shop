@@ -15,13 +15,15 @@ import java.util.logging.Logger;
 public class SearchProductsAjaxController implements Controller {
 
     @Wired
-    ProductService productService;
-    @Wired
     Logger logger;
+
+    @Wired
+    ProductService productService;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String query = StringEscapeUtils.escapeHtml4(request.getParameter("query"));
+        logger.finest(query);
         List<Product> productList = productService.search(query);
         JSONArray jsonArray = new JSONArray();
         productList.forEach(product -> {

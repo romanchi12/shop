@@ -16,6 +16,7 @@ public class ContextListener implements ServletContextListener {
     public final static Logger logger = Logger.getLogger(ContextListener.class.getName());
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+
         try {
             Application.run(DependencyInjectionConfiguration.class);
         } catch (IOException e) {

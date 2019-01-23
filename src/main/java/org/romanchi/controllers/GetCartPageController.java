@@ -16,8 +16,6 @@ public class GetCartPageController implements Controller {
 
     @Wired
     OrderService orderService;
-    @Wired
-    Logger logger;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -28,7 +26,6 @@ public class GetCartPageController implements Controller {
             return "/cart.jsp";
         }
         List<OrderItemDTO> orderItemDTOList = orderService.getOrderItemsDTOsByOrderId(order.getOrderId());
-        logger.info(String.valueOf(orderItemDTOList.size()));
         request.setAttribute("orderitemdtos", orderItemDTOList);
         return "/cart.jsp";
     }

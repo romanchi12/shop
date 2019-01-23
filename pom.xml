@@ -10,18 +10,15 @@
     <packaging>war</packaging>
 
     <name>shop Maven Webapp</name>
-    <url>http://www.example.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
     <repositories>
         <repository>
             <id>mvn-repo</id>
-            <url>https://github.com/romanchi12/Dependency-injection-artifact/master</url>
+            <url>https://github.com/romanchi12/Dependency-injection-artifact</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

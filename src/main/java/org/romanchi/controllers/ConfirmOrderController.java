@@ -13,9 +13,10 @@ import java.util.logging.Logger;
 public class ConfirmOrderController implements Controller {
 
     @Wired
-    OrderService orderService;
-    @Wired
     Logger logger;
+
+    @Wired
+    OrderService orderService;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -28,6 +29,7 @@ public class ConfirmOrderController implements Controller {
         long orderId = orderService.saveOrder(order);
         request.setAttribute("orderId", orderId);
         String completed = orderService.sendEmail(user, order.getOrderId());
+        logger.finest(completed);
         request.setAttribute("completed", completed);
         return "/afterconfirm.jsp";
     }

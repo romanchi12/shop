@@ -1,5 +1,6 @@
 package org.romanchi.controllers;
 
+import org.romanchi.Application;
 import org.romanchi.Wired;
 import sun.rmi.runtime.Log;
 
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 
 public class DispatcherServlet extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(DispatcherServlet.class.getName());
+    private final static Logger logger = Application.getContext().getBean(Logger.class);
 
     private ControllerManager controllerManager = new ControllerManager();
 
@@ -22,6 +23,7 @@ public class DispatcherServlet extends HttpServlet {
         String controller = request.getParameter("controller");
         logger.info(controller);
         String path = controllerManager.getController(controller).execute(request, response);
+        logger.info(path);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
         requestDispatcher.forward(request,response);
     }

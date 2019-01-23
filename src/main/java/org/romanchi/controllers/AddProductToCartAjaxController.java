@@ -2,6 +2,7 @@ package org.romanchi.controllers;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.json.simple.JSONObject;
+import org.romanchi.Message;
 import org.romanchi.Wired;
 import org.romanchi.database.OrderStatus;
 import org.romanchi.database.entities.*;
@@ -30,7 +31,8 @@ public class AddProductToCartAjaxController implements Controller {
         Map<String, Object> respMap = new HashMap<>();
         if(request.getParameter("productId")==null){
             respMap.put("status","error");
-            respMap.put("errorMessage","Bad product id");
+            respMap.put("errorMessage", Message.BAD_PARAMETERS.getLocalized(request));
+            logger.info("Bad parameters");
             return new JSONObject(respMap).toJSONString();
         }
 
@@ -40,25 +42,29 @@ public class AddProductToCartAjaxController implements Controller {
             productQuantity = (request.getParameter("productQuantity")==null)? Integer.valueOf(1)
                     :Integer.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productQuantity")));
             productId = Long.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("productId")));
+            logger.finest(productQuantity + " " + productId);
             if(productQuantity<=0){
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
             respMap.put("status","error");
-            respMap.put("errorMessage","Bad parameters");
+            respMap.put("errorMessage",Message.BAD_PARAMETERS.getLocalized(request));
+            logger.info("Bad parameters");
             return new JSONObject(respMap).toJSONString();
         }
 
         Product product = productService.getProductById(productId);
         if(product==null){
             respMap.put("status","error");
-            respMap.put("errorMessage", "Bad product id");
+            respMap.put("errorMessage", Message.BAD_PARAMETERS.getLocalized(request));
+            logger.info("Bad parameters");
             return new JSONObject(respMap).toJSONString();
         }
         WarehouseItem warehouseItem = product.getWarehouseItem();
         if(warehouseItem.getWarehouseItemQuantity()<productQuantity){
             respMap.put("status","error");
-            respMap.put("errorMessage", "Not enough products in stock");
+            respMap.put("errorMessage", Message.NOT_ENOUGHT_PRODUCTS_IN_STOCK.getLocalized(request));
+            logger.info("Not enough products in stock");
             return new JSONObject(respMap).toJSONString();
         }
 
@@ -71,7 +77,7 @@ public class AddProductToCartAjaxController implements Controller {
             order.setSummaryPrice(order.getSummaryPrice()+product.getProductPrice()*productQuantity);
 
             OrderItem orderItem = orderService.findOrderItemByProductAndOrder(product,order);
-            logger.info(String.valueOf(orderItem));
+
             if(orderItem==null){
                 orderItem = new OrderItem();
                 orderItem.setOrder(order);
@@ -101,7 +107,7 @@ public class AddProductToCartAjaxController implements Controller {
 
         productService.saveWarehouseItem(warehouseItem);
         respMap.put("status","ok");
-        respMap.put("successMessage","Added");
+        respMap.put("successMessage",Message.ADDED.getLocalized(request));
         return new JSONObject(respMap).toJSONString();
     }
 }

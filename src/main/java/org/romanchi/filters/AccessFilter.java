@@ -31,6 +31,7 @@ public class AccessFilter implements Filter {
         publicControllers.add("RegistrationController");
         publicControllers.add("SetSortingOrderAjaxController");
         publicControllers.add("SearchProductsAjaxController");
+        publicControllers.add("TestLocaleAjaxController");
 
         defaultUserControllers.add("LogoutController");
         defaultUserControllers.add("UpdateUserController");

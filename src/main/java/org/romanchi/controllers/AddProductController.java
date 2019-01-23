@@ -1,6 +1,7 @@
 package org.romanchi.controllers;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.romanchi.Message;
 import org.romanchi.Wired;
 import org.romanchi.database.entities.Category;
 import org.romanchi.database.entities.Product;
@@ -33,6 +34,8 @@ public class AddProductController implements Controller {
                     valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("categorySelection")));
             String productImageSrc = StringEscapeUtils.escapeHtml4(request.getParameter("productimagesrc"));
 
+            logger.finest(productName + " " + productQuantity + " " + productDescribe + " " + productPrice + " " + categoryId + " " + productImageSrc);
+
             WarehouseItem warehouseItem = new WarehouseItem();
             warehouseItem.setWarehouseItemQuantity(productQuantity);
             long warehouseItemId = productService.saveWarehouseItem(warehouseItem);
@@ -41,7 +44,8 @@ public class AddProductController implements Controller {
             Category category = productService.getCategoryById(categoryId);
 
             if(category==null){
-                request.setAttribute("errorMessage","No such category exist");
+                logger.info("No such category exist");
+                request.setAttribute("errorMessage",Message.NO_SUCH_CATEGORY_EXIST.getLocalized(request));
                 return "/error.jsp";
             }
 
@@ -57,7 +61,8 @@ public class AddProductController implements Controller {
 
             return "/Controller?controller=AdminPageController&page=0";
         }catch (NumberFormatException ex){
-            request.setAttribute("errorMessage","Bad parameters");
+            logger.info("Bad parameters");
+            request.setAttribute("errorMessage", Message.BAD_PARAMETERS.getLocalized(request));
             return "/error.jsp";
         }
     }

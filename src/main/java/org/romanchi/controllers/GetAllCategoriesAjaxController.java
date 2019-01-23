@@ -16,9 +16,6 @@ public class GetAllCategoriesAjaxController implements Controller {
     @Wired
     CategoryService categoryService;
 
-    @Wired
-    Logger logger;
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         List<Category> categories = categoryService.getAllCategories();

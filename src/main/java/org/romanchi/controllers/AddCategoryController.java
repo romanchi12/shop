@@ -7,8 +7,13 @@ import org.romanchi.services.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddCategoryController implements Controller {
+
+    @Wired
+    Logger logger;
 
     @Wired
     ProductService productService;
@@ -16,6 +21,7 @@ public class AddCategoryController implements Controller {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String categoryName = StringEscapeUtils.escapeHtml4(request.getParameter("categoryname"));
+        logger.finest(categoryName);
         Category category = new Category();
         category.setCategoryName(categoryName);
         productService.saveCategory(category);

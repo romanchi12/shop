@@ -52,6 +52,8 @@ public class ControllerManager {
                 getContext().getBean(SetSortingOrderAjaxController.class));
         controllerHashMap.put("SearchProductsAjaxController",
                 getContext().getBean(SearchProductsAjaxController.class));
+        controllerHashMap.put("TestLocaleAjaxController",
+                getContext().getBean(TestLocaleAjaxController.class));
     }
     public Controller getController(String controllerName){
         if(controllerHashMap.containsKey(controllerName)){

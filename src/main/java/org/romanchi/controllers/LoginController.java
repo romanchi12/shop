@@ -4,6 +4,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.romanchi.Wired;
 import org.romanchi.database.entities.User;
 import org.romanchi.services.UserService;
+import sun.security.provider.MD5;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ public class LoginController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String email = StringEscapeUtils.escapeHtml4(request.getParameter("email"));
         String password = StringEscapeUtils.escapeHtml4(request.getParameter("password"));
+        logger.finest(email + " " /* + password  (may cause security problems)*/);
         Optional<User> userToLoginOptional = userService.login(email, password);
         if(userToLoginOptional.isPresent()){
             User userToLogin = userToLoginOptional.get();
@@ -29,6 +31,7 @@ public class LoginController implements Controller {
             return "/Controller?controller=GetProductsPageController";
         }
         request.setAttribute("errorMessage","Bad email or password");
+        logger.info("Bad email or password");
         return "/login.jsp";
     }
 }

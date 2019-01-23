@@ -5,6 +5,7 @@ import org.romanchi.Wired;
 import org.romanchi.database.dto.ProductDTO;
 import org.romanchi.database.entities.Category;
 import org.romanchi.services.ProductService;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,9 @@ import java.util.logging.Logger;
 public class GetProductsPageController implements Controller {
 
     @Wired
+    Logger logger;
+
+    @Wired
     ProductService productService;
 
     @Override
@@ -21,7 +25,6 @@ public class GetProductsPageController implements Controller {
         Integer page = null;
         Long categoryId = null;
         String sort = request.getSession().getAttribute("sort")==null? "ID":(String)request.getSession().getAttribute("sort");
-
         try {
             page = request.getParameter("page")==null?
                     new Integer(0):
@@ -29,8 +32,10 @@ public class GetProductsPageController implements Controller {
             categoryId = request.getParameter("categoryId")==null?
                     Long.valueOf(-1):
                     Long.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("categoryId")));
+            logger.finest(page + " " + categoryId);
         } catch (NumberFormatException e) {
             request.setAttribute("errorMessage","Bad parameters");
+            logger.info("Bad parameters");
             return "/error.jsp";
         }
         request.setAttribute("page",page);
